@@ -5,6 +5,13 @@
 
 
 using namespace std;
+struct find_greater
+{
+    template<class T>
+    bool operator()(T const &a, T const &b) const { return a > b; }
+};
+
+
 
 bool string_count_check(std :: string &Input_string_Ft)
 {
@@ -47,9 +54,11 @@ string FirstThread()
         std :: cout << "Строка содержит более 64 символов ";
         return 0;
     }
-
     
+    // строка должна быть отсортирована по убыванию и 
+    std::sort(Input_string_Ft.begin(), Input_string_Ft.end(), find_greater()); 
     
+    // все четные элементы заменены на латинские буквы «КВ»
     
 
     
