@@ -1,0 +1,65 @@
+#include <iostream>
+#include <string>
+#include <thread>
+#include <algorithm>
+
+
+using namespace std;
+
+bool string_count_check(std :: string &Input_string_Ft)
+{
+    if(Input_string_Ft.length() > 64)
+    {
+        std :: cout << "Строка превышает 64 символа!";
+        return false;
+    }
+    return true;
+}
+bool string_num_check(std :: string &Input_string_Ft)
+{
+    
+    return !Input_string_Ft.empty() && std::all_of(Input_string_Ft.begin(), Input_string_Ft.end(), ::isdigit);
+
+}
+
+string FirstThread()
+{
+    string Input_string_Ft;
+    
+    std :: cout <<"Начало работы первого потока: " << endl;
+    std :: cout <<"Введите строку, которая состоит только из цифр и не превышает 64 символа: ";
+    std :: cin >> Input_string_Ft;
+    
+    //  Должна быть проверка, что строка состоит только из цифр и не превышает 64 символа. 
+    string_num_check(Input_string_Ft); // вызываем проверку на исключительность цифр в string
+   
+    bool maybeFoo = string_num_check(Input_string_Ft); // булевая проверка на истину в числовой строке
+    
+    if (maybeFoo == false)
+    {
+    std :: cout << "Строка не числовая" << endl;
+        return 0;
+    } 
+    bool maybeFoo_2 = string_count_check(Input_string_Ft); // булевая проверка на превышение 64 символов в строке
+    
+    if(maybeFoo == false)
+    {
+        std :: cout << "Строка содержит более 64 символов ";
+        return 0;
+    }
+
+    
+    
+    
+
+    
+    return Input_string_Ft;
+}
+
+int main()
+{
+    FirstThread();
+    
+
+    return 0;
+}
