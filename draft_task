@@ -5,32 +5,64 @@
 
 
 using namespace std;
-struct find_greater
+
+
+
+class Task
 {
+    public: 
+    
+    
+    string replacing_num(string Input_string_Ft)
+    {
+    
+   const char* y = "KB";
+   
+    
+   // std::replace(Input_string_Ft.begin(), Input_string_Ft.end(), x, y);
+    
+    for(int i = 0; i < Input_string_Ft.size(); i++)
+    {
+        if(Input_string_Ft[i] %2 == 0)
+        {
+            //Input_string_Ft[i] = y[0] + y[1];
+             Input_string_Ft[i] = y[0];
+             Input_string_Ft[i] += y[1];
+        }
+        cout << Input_string_Ft[i] << "\t";
+    }
+    
+    return Input_string_Ft;  
+    
+    }
+    
+    struct find_greater
+    {
+        
     template<class T>
     bool operator()(T const &a, T const &b) const { return a > b; }
-};
+    
+        
+    };
 
-
-
-bool string_count_check(std :: string &Input_string_Ft)
-{
-    if(Input_string_Ft.length() > 64)
+    bool string_count_check(std :: string &Input_string_Ft)
     {
+    if(Input_string_Ft.length() > 64)
+        {
         std :: cout << "Строка превышает 64 символа!";
         return false;
-    }
+        }
     return true;
-}
-bool string_num_check(std :: string &Input_string_Ft)
-{
+    }
+    bool string_num_check(std :: string &Input_string_Ft)
+    {
     
     return !Input_string_Ft.empty() && std::all_of(Input_string_Ft.begin(), Input_string_Ft.end(), ::isdigit);
 
 }
 
 string FirstThread()
-{
+    {
     string Input_string_Ft;
     
     std :: cout <<"Начало работы первого потока: " << endl;
@@ -55,19 +87,42 @@ string FirstThread()
         return 0;
     }
     
-    // строка должна быть отсортирована по убыванию и 
+    // строка должна быть отсортирована по убыванию  
     std::sort(Input_string_Ft.begin(), Input_string_Ft.end(), find_greater()); 
     
     // все четные элементы заменены на латинские буквы «КВ»
     
+    replacing_num(Input_string_Ft);
+    
+    
 
     
     return Input_string_Ft;
+     }
+string SecondThread()
+{
+    /*Поток должен вывести полученные данные на экран, 
+    рассчитать общую сумму всех элементов , которые являются численными значениями. 
+    Полученную сумму передать в Программу №2*/
+    
+    return;
 }
-
+};
 int main()
 {
-    FirstThread();
+    setlocale(LC_ALL,"Russian");
+    char *buffer = new char[256];
+    Task task;
+    Task task_2;
+    task.FirstThread();
+    
+    
+    /*После данная строка помещается в общий буфер
+    и поток должен ожидать дальнейшего ввода пользователя.*/
+   
+    
+    
+    delete[] buffer;
     
 
     return 0;
