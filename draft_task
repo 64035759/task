@@ -1,7 +1,12 @@
 #include <iostream>
-#include <string>
-#include <thread>
 #include <algorithm>
+#include <thread>
+#include <string>
+#include <cmath>
+#include <fstream>
+#include <sstream>
+
+
 
 
 using namespace std;
@@ -10,120 +15,151 @@ using namespace std;
 
 class Task
 {
-    public: 
-    
-    
-    string replacing_num(string Input_string_Ft)
+       private:
+
+    std :: string numbers;
+    ofstream filestr = ofstream("test.txt");
+
+
+       public:
+
+           struct find_greater
+           {
+
+               template<class T>
+               bool operator()(T const& a, T const& b) const { return a > b; }
+
+
+           };
+
+
+   void replacing_num(std::string Input_string_Ft)
     {
-    
-   const char* y = "KB";
-   
-    
-   // std::replace(Input_string_Ft.begin(), Input_string_Ft.end(), x, y);
-    
-    for(int i = 0; i < Input_string_Ft.size(); i++)
-    {
-        if(Input_string_Ft[i] %2 == 0)
+       std :: string new_numbers;
+       new_numbers.resize(1); 
+       std :: string kb = "KB";
+
+       new_numbers[0] = numbers[0]; // приравниваем первые строки, чтобы не было изменений
+
+       int i = 0; //строка new_numbers
+       int j = 0; // строка numbers
+       for (int k = 0; k < Input_string_Ft.length(); k++)
+       {
+           if ((k + 1) % 2 == 0)
+           {
+               new_numbers.insert(i, kb);
+               i++; //  добавляем первый символ
+               i++; // добавляем первый символ второй раз, т.к он двухзначный
+               j++; // увеличиваем индекс
+               
+           }
+           else
+           {
+               new_numbers.insert(i++, numbers, j++, 1); // иначе вставляем неподходящие цифры
+           }
+
+       }
+
+ 
+       numbers = new_numbers;
+
+       
+       /* const char* y = "KB";
+
+
+         std::replace(Input_string_Ft.begin(), Input_string_Ft.end(), x, y);
+
+        for (int i = 0; i < Input_string_Ft.size(); i++)
         {
-            //Input_string_Ft[i] = y[0] + y[1];
-             Input_string_Ft[i] = y[0];
-             Input_string_Ft[i] += y[1];
+            if (Input_string_Ft[i] % 2 == 0)
+            {
+                //Input_string_Ft[i] = y[0] + y[1];
+                Input_string_Ft[i] = y[0];
+                Input_string_Ft[i] += y[1];
+            }
+            cout << Input_string_Ft[i] << "\t";
         }
-        cout << Input_string_Ft[i] << "\t";
+
+        return Input_string_Ft;
+       */
     }
-    
-    return Input_string_Ft;  
-    
+
+  
+    void string_num_check(std::string Input_string_Ft)
+    {
+        int result = 0; // if result > 1, find error;
+
+        if (Input_string_Ft.size() > 64)
+        {
+            result++;
+            cout << "Размер больше 64 символов";
+        }
+        for (int i = 0; i < Input_string_Ft.size(); i++)
+        {
+            if (isdigit(Input_string_Ft[i]))
+            {
+                continue;
+                //cout<<numbers[i];
+            }
+            else
+            {
+                cout << "\nСтрока должна состоять только из цифр.\n";
+                result = 1;
+                break;
+            }
+        }
     }
-    
-    struct find_greater
+
+    void FirstThread()
     {
         
-    template<class T>
-    bool operator()(T const &a, T const &b) const { return a > b; }
-    
-        
-    };
 
-    bool string_count_check(std :: string &Input_string_Ft)
-    {
-    if(Input_string_Ft.length() > 64)
-        {
-        std :: cout << "Строка превышает 64 символа!";
-        return false;
-        }
-    return true;
+        std::cout << "Начало работы первого потока: " << endl;
+              
     }
-    bool string_num_check(std :: string &Input_string_Ft)
-    {
-    
-    return !Input_string_Ft.empty() && std::all_of(Input_string_Ft.begin(), Input_string_Ft.end(), ::isdigit);
 
-}
-
-string FirstThread()
-    {
-    string Input_string_Ft;
-    
-    std :: cout <<"Начало работы первого потока: " << endl;
-    std :: cout <<"Введите строку, которая состоит только из цифр и не превышает 64 символа: ";
-    std :: cin >> Input_string_Ft;
-    
-    //  Должна быть проверка, что строка состоит только из цифр и не превышает 64 символа. 
-    string_num_check(Input_string_Ft); // вызываем проверку на исключительность цифр в string
    
-    bool maybeFoo = string_num_check(Input_string_Ft); // булевая проверка на истину в числовой строке
-    
-    if (maybeFoo == false)
+   
+   /* std::string SecondThread()
     {
-    std :: cout << "Строка не числовая" << endl;
-        return 0;
-    } 
-    bool maybeFoo_2 = string_count_check(Input_string_Ft); // булевая проверка на превышение 64 символов в строке
-    
-    if(maybeFoo == false)
-    {
-        std :: cout << "Строка содержит более 64 символов ";
-        return 0;
-    }
-    
-    // строка должна быть отсортирована по убыванию  
-    std::sort(Input_string_Ft.begin(), Input_string_Ft.end(), find_greater()); 
-    
-    // все четные элементы заменены на латинские буквы «КВ»
-    
-    replacing_num(Input_string_Ft);
-    
-    
+        /*Поток должен вывести полученные данные на экран,
+        рассчитать общую сумму всех элементов , которые являются численными значениями.
+        Полученную сумму передать в Программу №2*/
 
-    
-    return Input_string_Ft;
-     }
-string SecondThread()
-{
-    /*Поток должен вывести полученные данные на экран, 
-    рассчитать общую сумму всех элементов , которые являются численными значениями. 
-    Полученную сумму передать в Программу №2*/
-    
-    return;
-}
-};
+        //return;
+
+      
+
+       
+   };
+
+
 int main()
+
 {
-    setlocale(LC_ALL,"Russian");
-    char *buffer = new char[256];
+    setlocale(LC_ALL, "Russian");
+    char* buffer = new char[256];
+    string Input_string_Ft;
     Task task;
-    Task task_2;
-    task.FirstThread();
     
+    std::cout << "Введите строку, которая состоит только из цифр и не превышает 64 символа: ";
+    std::cin >> Input_string_Ft;
+    task.string_num_check(Input_string_Ft);
+    task.replacing_num(Input_string_Ft);
+
     
+   
+    //  Должна быть проверка, что строка состоит только из цифр и не превышает 64 символа. 
+                              //  вызываем проверку на исключительность цифр в string
+
+
+
     /*После данная строка помещается в общий буфер
     и поток должен ожидать дальнейшего ввода пользователя.*/
-   
-    
-    
-    delete[] buffer;
-    
 
+
+
+    delete[] buffer;
     return 0;
 }
+   
