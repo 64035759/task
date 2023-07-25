@@ -15,84 +15,89 @@ using namespace std;
 
 class Task
 {
-       private:
-
-    std :: string numbers;
-    ofstream filestr = ofstream("test.txt");
+ private:
 
 
-       public:
+      std :: string Input_string_Ft;
+      ofstream filestr = ofstream("test.txt");
 
-           struct find_greater
-           {
+
+
+
+ public:
+
+     struct find_greater
+      {
 
                template<class T>
                bool operator()(T const& a, T const& b) const { return a > b; }
 
 
-           };
+     };
 
-
-   void replacing_num(std::string Input_string_Ft)
+     void get_string()
+     {
+         std::cout << "Введите строку, которая состоит только из цифр и не превышает 64 символа: ";
+         std::cin >> Input_string_Ft;
+     }
+  
+    void replacing_num()
     {
-       std :: string new_numbers;
-       new_numbers.resize(1); 
-       std :: string kb = "KB";
-
-       new_numbers[0] = numbers[0]; // приравниваем первые строки, чтобы не было изменений
-
-       int i = 0; //строка new_numbers
-       int j = 0; // строка numbers
-       for (int k = 0; k < Input_string_Ft.length(); k++)
-       {
-           if ((k + 1) % 2 == 0)
-           {
-               new_numbers.insert(i, kb);
-               i++; //  добавляем первый символ
-               i++; // добавляем первый символ второй раз, т.к он двухзначный
-               j++; // увеличиваем индекс
-               
-           }
-           else
-           {
-               new_numbers.insert(i++, numbers, j++, 1); // иначе вставляем неподходящие цифры
-           }
-
-       }
-
- 
-       numbers = new_numbers;
-
+      
+        string KB = "KB";
+        const char* y = "KB";
+        string new_numbers; //Строка для преобразований
+        new_numbers.resize(1); //Задаем размер строки
        
-       /* const char* y = "KB";
-
-
-         std::replace(Input_string_Ft.begin(), Input_string_Ft.end(), x, y);
-
-        for (int i = 0; i < Input_string_Ft.size(); i++)
+        new_numbers[0] = Input_string_Ft[0];
+       
+        int j = 1; //j - Индекс строки Input_string_Ft;
+        int i = 1; // i - Индекс строки new_numbers
+       
+        for (int k = 0; k < Input_string_Ft.size(); k++)
+        {
+            if ((k + 1) % 2 == 0)
+            {
+                new_numbers.insert(i, KB);
+                i++; //увеличиваем индекс new_number на 2 т.к. добавили 2 символа
+                i++;
+                j++; //т.к. заменили цифру на символы, увеличиваем индекс на 1
+            }
+            else
+            {
+                new_numbers.insert(i++, Input_string_Ft, j++, 1); //Вставляем цифры в new_numbers на место нечетных эл-в
+            }
+            Input_string_Ft = new_numbers; //Присваиваем строке numbers данные строки new_numbers
+        }
+              
+       
+        /*for (int i = 0; i < Input_string_Ft.size(); i++)
         {
             if (Input_string_Ft[i] % 2 == 0)
             {
-                //Input_string_Ft[i] = y[0] + y[1];
-                Input_string_Ft[i] = y[0];
-                Input_string_Ft[i] += y[1];
+                //Input_string_Ft[i] = KB;
+               // Input_string_Ft[i] = y[0];
+               // Input_string_Ft[i] += y[1];
+                
             }
             cout << Input_string_Ft[i] << "\t";
         }
-
-        return Input_string_Ft;
-       */
+        */
+       
+       
     }
 
+    
+
   
-    void string_num_check(std::string Input_string_Ft)
+    void string_num_check()
     {
         int result = 0; // if result > 1, find error;
 
         if (Input_string_Ft.size() > 64)
         {
             result++;
-            cout << "Размер больше 64 символов";
+            cout << "Размер больше 64 символов!";
         }
         for (int i = 0; i < Input_string_Ft.size(); i++)
         {
@@ -103,12 +108,34 @@ class Task
             }
             else
             {
-                cout << "\nСтрока должна состоять только из цифр.\n";
+                cout << "Строка должна состоять только из цифр!";
                 result = 1;
                 break;
             }
         }
     }
+
+    void send_to_file()
+    {
+        string line = " ";
+
+        {
+            string line = " ";
+            if (filestr.is_open())
+            {
+
+                filestr << Input_string_Ft ;
+                filestr.close();
+            }
+            else
+            {
+                filestr.open("./test.txt");
+                filestr << Input_string_Ft;
+                filestr.close();
+            }
+        }
+    }
+
 
     void FirstThread()
     {
@@ -117,8 +144,7 @@ class Task
         std::cout << "Начало работы первого потока: " << endl;
               
     }
-
-   
+       
    
    /* std::string SecondThread()
     {
@@ -132,6 +158,13 @@ class Task
 
        
    };
+  
+
+
+
+
+
+
 
 
 int main()
@@ -139,13 +172,13 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
     char* buffer = new char[256];
-    string Input_string_Ft;
+    
     Task task;
     
-    std::cout << "Введите строку, которая состоит только из цифр и не превышает 64 символа: ";
-    std::cin >> Input_string_Ft;
-    task.string_num_check(Input_string_Ft);
-    task.replacing_num(Input_string_Ft);
+    task.get_string();
+    task.string_num_check();
+    task.replacing_num();
+    task.send_to_file();
 
     
    
@@ -162,4 +195,3 @@ int main()
     delete[] buffer;
     return 0;
 }
-   
