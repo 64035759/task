@@ -27,7 +27,7 @@ class Task
 
  public:
 
-     struct find_greater
+     struct greater
       {
 
                template<class T>
@@ -159,7 +159,7 @@ class Task
                     }
                 list_size = sizeof(list)/sizeof(list[0]);
                 
-                sort(list, list+list_size, find_greater<int>()); //сортировка 
+                sort(list, list+list_size, std::greater<int>()); //сортировка 
 
             
                 ostringstream os; //Создаем поток, для преобразования массива int в строку
@@ -241,7 +241,7 @@ int main()
     char* buffer = new char[256];
     
     Task task;
-    Task task_2;
+    Task_2 task_2;
     
     task.get_string();
     task.string_num_check();
