@@ -5,6 +5,7 @@
 #include <cmath>
 #include <fstream>
 #include <sstream>
+#include <functional>
 
 
 
@@ -149,14 +150,14 @@ class Task
 
   void sort_num()
   {
-       int list[Input_string_Ft] = { 0 };
-                int i = 0;
-                int list_size = 0; //индекс массива и размер массива
-                for (i = 0; i<Input_string_Ft.size(); i++) //конвертируем строки в целлые числа в массиве
+       int list[Input_string_Ft.size()] = { 0 };
+                int i;
+                int list_size; //индекс массива и размер массива
+                for (i = 0; i < Input_string_Ft.size(); i++) //конвертируем строки в целлые числа в массиве
                     {
-                        list_size[i] = list_size[i] * 10 + (Input_string_Ft[i] - 48); 
+                        list[i] = list[i] * 10 + (Input_string_Ft[i] - 48); 
                     }
-                list = sizeof(list)/sizeof(list[0]);
+                list_size = sizeof(list)/sizeof(list[0]);
                 
                 sort(list, list+list_size, find_greater<int>()); //сортировка 
 
@@ -170,6 +171,7 @@ class Task
                 
                 Input_string_Ft = send_Input_string_Ft;
   }
+};
 
 class Task_2
 {
@@ -210,7 +212,7 @@ class Task_2
             if(isdigit(Input_string_Ft_2[i]))
             {
                 
-                list[j] = list[j] * 10 + (Input_string_Ft_2 - 48);
+                list[j] = list[j] * 10 + (Input_string_Ft_2[i] - 48);
                 j++;
                 
             }
@@ -222,7 +224,7 @@ class Task_2
                     sum += list[i]; 
         } 
         
-        
+        // надо отправить сумму на вторую программу
     }
     
 };
@@ -247,8 +249,8 @@ int main()
     task.replacing_num();
     task.send_to_file();
     
-    task2.get_file();
-    task2.sum_of_string();
+    task_2.get_file();
+    task_2.sum_of_string();
     // здесь надо поместить в буфер
     
 
