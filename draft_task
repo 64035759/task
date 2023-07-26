@@ -18,8 +18,8 @@ class Task
  private:
 
 
-      std :: string Input_string_Ft;
-      ofstream filestr = ofstream("test.txt");
+     std :: string Input_string_Ft;
+     ofstream filestr = ofstream("test.txt");
 
 
 
@@ -104,7 +104,7 @@ class Task
             if (isdigit(Input_string_Ft[i]))
             {
                 continue;
-                //cout<<numbers[i];
+                
             }
             else
             {
@@ -146,21 +146,86 @@ class Task
     }
        
    
-   /* std::string SecondThread()
+
+  void sort_num()
+  {
+       int list[Input_string_Ft] = { 0 };
+                int i = 0;
+                int list_size = 0; //индекс массива и размер массива
+                for (i = 0; i<Input_string_Ft.size(); i++) //конвертируем строки в целлые числа в массиве
+                    {
+                        list_size[i] = list_size[i] * 10 + (Input_string_Ft[i] - 48); 
+                    }
+                list = sizeof(list)/sizeof(list[0]);
+                
+                sort(list, list+list_size, find_greater<int>()); //сортировка 
+
+            
+                ostringstream os; //Создаем поток, для преобразования массива int в строку
+                for (int j: list)
+                {
+                    os<<j; //передача массива в поток ostringstream
+                }
+                string send_Input_string_Ft(os.str()); //Запись потока в строку
+                
+                Input_string_Ft = send_Input_string_Ft;
+  }
+
+class Task_2
+{
+    private:
+    
+     std :: string Input_string_Ft_2;
+    
+    public:
+    int sum = 0;
+    
+    void get_file()
     {
-        /*Поток должен вывести полученные данные на экран,
-        рассчитать общую сумму всех элементов , которые являются численными значениями.
-        Полученную сумму передать в Программу №2*/
+        ifstream infile("./test.txt");
+        
+        infile>>Input_string_Ft_2;
+        
+        infile.close();
+        
+        ofstream toclearfile = ofstream("./test.txt");
+        
+        toclearfile.close();
+        
+    }
+    
+    void sum_of_string() // находим сумму строки, которая передана из файла
+    {
+        int i = 0;
+        int j = 0;
+        
+        int list[Input_string_Ft_2.size()] = {};
+        // Чтобы посчитать сумму, нам надо KB не считать с другими числами. Isdigit поможет с этим
+        // Перед суммой будем проверять каждый символ на соответсвие числу
+        //Функция isdigit() возвращает: ненулевое целочисленное значение (истина), если значение цифра
+        // целое число ноль (ложь), если значение не является цифрой
 
-        //return;
-
-      
-
-       
-   };
-  
-
-
+        for( i = 0; i <  Input_string_Ft_2.size(); i++) // повторяем то же самое, что и в первом классе task
+        {
+            if(isdigit(Input_string_Ft_2[i]))
+            {
+                
+                list[j] = list[j] * 10 + (Input_string_Ft_2 - 48);
+                j++;
+                
+            }
+        }
+        
+        for (i = 0; i < j; i++) // и находим сумму 
+        
+        { 
+                    sum += list[i]; 
+        } 
+        
+        
+    }
+    
+};
 
 
 
@@ -174,11 +239,18 @@ int main()
     char* buffer = new char[256];
     
     Task task;
+    Task task_2;
     
     task.get_string();
     task.string_num_check();
+    task.sort_num();
     task.replacing_num();
     task.send_to_file();
+    
+    task2.get_file();
+    task2.sum_of_string();
+    // здесь надо поместить в буфер
+    
 
     
    
